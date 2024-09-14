@@ -28,54 +28,60 @@ def get_paper_content(arxiv_id):
     # Extract text from PDF
     reader = PdfReader(pdf_content)
     text = ""
-    token_count = 0
     for page in reader.pages:
-        page_text = page.extract_text()
-        page_tokens = num_tokens_from_string(page_text, "cl100k_base")
-        if token_count + page_tokens > 0:
-            remaining_tokens = 10000 - token_count
-            truncated_text = page_text[
-                : int(remaining_tokens * 4)
-            ]  # Approximate chars per token
-            text += truncated_text
-            break
-        text += page_text
-        token_count += page_tokens
-        if token_count >= 10000:
-            break
+        text += page.extract_text()
+
+    # Truncate to 10000 tokens if necessary
+    encoding = tiktoken.get_encoding("cl100k_base")
+    tokens = encoding.encode(text)
+    if len(tokens) > 10000:
+        tokens = tokens[:10000]
+        text = encoding.decode(tokens)
 
     return text
 
 
 def summarize_paper(text):
-    prompt = f"""Here is an academic paper: <paper>{text}</paper>. Please provide a comprehensive summary of this academic paper that would allow someone to recreate the paper from scratch. Include all relevant details about how the paper is written, all technical details of the methodology, and all empirical findings. Your summary should cover the following elements in detail:
+    prompt = f"""Here is an academic paper: <paper>{text}</paper>. Please provide a comprehensive summary of this machine learning paper that would allow someone to recreate the paper from scratch. Include all relevant details about how the paper is written, all technical details of the methodology, and all empirical findings. Your summary should cover the following sections in detail:
 
-1. Introduction and Background:
+1. Abstract:
+   - Concise overview of the paper's main contributions and results
+
+2. Introduction:
    - Detailed context of the research
    - Specific research questions or hypotheses
-   - Comprehensive literature review
+   - Comprehensive literature review and positioning of the work
 
-2. Methodology:
-   - Detailed experimental design
-   - Precise descriptions of all techniques and procedures used
-   - Exact specifications of any equipment or software employed
-   - Complete details of data collection methods
-   - Thorough explanation of data analysis techniques
+3. Related Work:
+   - Thorough review of relevant prior work
+   - Clear explanation of how this paper advances the state of the art
 
-3. Results:
+4. Method:
+   - Detailed description of the proposed approach
+   - Precise mathematical formulations and algorithms
+   - Architectural details of any neural networks or models used
+   - Explanation of any novel techniques or adaptations
+
+5. Experimental Setup:
+   - Detailed description of datasets used
+   - Precise specifications of hardware and software
+   - Comprehensive explanation of evaluation metrics
+   - Thorough description of baselines and comparison methods
+
+6. Results and Analysis:
    - All empirical findings, including exact numbers, statistics, and measurements
    - Detailed descriptions of any graphs, tables, or figures
-   - Any unexpected or anomalous results
+   - Comprehensive analysis of results, including ablation studies
+   - Discussion of any unexpected or anomalous results
 
-4. Discussion:
+7. Discussion:
    - In-depth interpretation of all results
-   - Comprehensive comparison with existing literature
    - Thorough analysis of the implications of the findings
+   - Critical examination of limitations and potential biases
 
-5. Conclusion:
-   - Precise summary of key findings
-   - Detailed discussion of limitations
-   - Specific suggestions for future research
+8. Conclusion:
+   - Precise summary of key contributions
+   - Specific suggestions for future research directions
 
 Ensure that the summary is extremely detailed, technically precise, and captures all essential information from the paper. It should provide enough information for a researcher to replicate the study or build directly upon this work."""
 
@@ -94,24 +100,11 @@ Ensure that the summary is extremely detailed, technically precise, and captures
     return response.choices[0].message.content
 
 
-def main():
-    arxiv_id = input("Enter the arXiv ID of the paper: ")
-
+def get_paper_summary(arxiv_id):
     try:
         paper_content = get_paper_content(arxiv_id)
         summary = summarize_paper(paper_content)
-
-        print("\nSummary of the paper:")
-        print(summary)
-
-        # Optionally, save the summary to a file
-        with open(f"{arxiv_id}_summary.txt", "w") as f:
-            f.write(summary)
-        print(f"\nSummary saved to {arxiv_id}_summary.txt")
-
+        return summary, paper_content
     except Exception as e:
-        print(f"An error occurred: {str(e)}")
-
-
-if __name__ == "__main__":
-    main()
+        print(f"An error occurred processing {arxiv_id}: {str(e)}")
+        return None, None
