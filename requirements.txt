@@ -1,0 +1,5 @@
+openai
+arxiv
+PyPDF2
+requests
+tiktoken
