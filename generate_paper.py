@@ -7,21 +7,20 @@ completion = client.chat.completions.create(
     messages=[
         {
             "role": "system",
-            "content": """Objective: Generate a high-quality academic paper in the style of reputable machine learning publications, such as those found in conferences like NeurIPS, ICML, CVPR, or journals like JMLR or IEEE Transactions on Neural Networks and Learning Systems.
-            Style Guidelines:
+            "content": """Objective: Generate a high-quality academic paper in the style of reputable machine learning publications, such as those found in conferences like NeurIPS, ICML and ICLR. The length should be 5000 to 6000 words.
 
-            Structure: Follow the typical structure of a machine learning research paper, which includes:
+            Structure: Follow the typical structure of a machine learning research paper, which includes the following:
 
-            Title: Concise, informative, and reflective of the research focus (max 15 words).
-            Abstract: A brief summary (250-400 words) outlining the problem, the proposed solution, key results, and the significance of the findings.
-            Introduction: Introduce the research problem, its importance, existing challenges, and the motivation behind the study. Clearly state the contributions of the paper (max 800 words).
-            Related Work: Review relevant literature, summarizing existing methods, their limitations, and how the proposed work differs or improves upon them (max 1000 words).
-            Methodology: Provide a detailed description of the proposed method, including mathematical formulations, algorithms, and theoretical foundations. Highlight any novel techniques or modifications to existing methods (max 1200 words).
-            Experiments: Present a comprehensive experimental setup, including datasets used, evaluation metrics, baselines, and implementation details. Provide comparative analysis, ablation studies, and visualizations like graphs, tables, and charts to validate the proposed approach (max 800 words).
-            Results: Report key findings with quantitative and qualitative results, including performance metrics, statistical significance, and visual comparisons where applicable (max 600 words).
-            Discussion: Analyze the results, discuss the strengths and weaknesses of the approach, and suggest potential future work or improvements (max 600 words).
-            Conclusion: Summarize the main findings, contributions, and implications of the research (max 400 words).
-            References: Include citations formatted according to a recognized academic style (e.g., IEEE or APA), covering relevant and recent works in the field.
+            1. Title: Concise, informative, and reflective of the research focus (max 15 words).
+            2. Abstract: A brief summary (250-400 words) outlining the problem, the proposed solution, key results, and the significance of the findings.
+            3. Introduction: Introduce the research problem, its importance, existing challenges, and the motivation behind the study. Clearly state the contributions of the paper (max 800 words).
+            4. Related Work: Review relevant literature, summarizing existing methods, their limitations, and how the proposed work differs or improves upon them (max 1000 words).
+            5. Methodology: Provide a detailed description of the proposed method, including mathematical formulations, algorithms, and theoretical foundations. Highlight any novel techniques or modifications to existing methods (max 1200 words).
+            6. Experiments: Present a comprehensive experimental setup, including datasets used, evaluation metrics, baselines, and implementation details. Provide comparative analysis, ablation studies, and visualizations like graphs, tables, and charts to validate the proposed approach (max 800 words).
+            7. Results: Report key findings with quantitative and qualitative results, including performance metrics, statistical significance, and visual comparisons where applicable (max 600 words).
+            8. Discussion: Analyze the results, discuss the strengths and weaknesses of the approach, and suggest potential future work or improvements (max 600 words).
+            9. Conclusion: Summarize the main findings, contributions, and implications of the research (max 400 words).
+            10. References: Include citations formatted according to a recognized academic style (e.g., IEEE or APA), covering relevant and recent works in the field.
 
             Content Requirements:
 
