@@ -6,7 +6,7 @@ def finetune_model(api_key, dataset_path):
 
     response = openai.FineTune.create(
         training_file=dataset_path,
-        model="gpt-4o-mini",
+        model="gpt-4o-2024-08-06",
         n_epochs=4,
         learning_rate_multiplier=0.1,
     )
