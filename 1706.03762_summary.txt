@@ -1,5 +1,3 @@
-### Comprehensive Summary of "Attention Is All You Need"
-
 #### 1. Introduction and Background:
 - **Context of the Research:**
   The research proposes a new model architecture for sequence transduction tasks, which traditionally rely on complex recurrent (RNN) or convolutional neural networks (CNN). These tasks often employ attention mechanisms to connect an encoder and a decoder, aiming to translate sequences from one domain to another, prominent in tasks like machine translation.
